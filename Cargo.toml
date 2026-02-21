@@ -1,0 +1,16 @@
+[package]
+name    = "logo-parser"
+version = "1.0.0"
+authors = ["CELESTIFYX Team <celestifyx@gmail.com>"]
+edition = "2024"
+license = "GPL-3.0-or-later"
+description = "A library for parsing custom logo and color configurations from JSON files for LynxFetch"
+repository  = "https://gitlab.com/lynxfetch/logo-parser"
+
+[dependencies]
+serde_json = "1.0.149"
+chromakitx = "1.0.2"
+
+[dependencies.serde]
+version = "1.0.228"
+features = ["derive"]
