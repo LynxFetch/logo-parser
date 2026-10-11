@@ -78,26 +78,26 @@ impl LogoConfig {
 
     pub(super) fn get_title_color_ref(&self) -> Option<String> {
         if let ColorValue::Reference(s) = &self.colors[0] {
-            Some(s.clone())
-        } else {
-            None
+            return Some(s.clone());
         }
+
+        None
     }
 
     pub(super) fn get_keys_color_ref(&self) -> Option<String> {
         if let ColorValue::Reference(s) = &self.colors[1] {
-            Some(s.clone())
-        } else {
-            None
+            return Some(s.clone());
         }
+
+        None
     }
 
     pub(super) fn get_color_defs(&self) -> Option<Vec<ColorDef>> {
         if let ColorValue::Array(arr) = &self.colors[2] {
-            Some(arr.clone())
-        } else {
-            None
+            return Some(arr.clone());
         }
+
+        None
     }
 }
 

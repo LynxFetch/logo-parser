@@ -12,7 +12,7 @@ use logo_parser::{
 };
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let path: &Path = Path::new("examples/tux.json");
+    let path: &Path = Path::new("examples/tux.json5");
 
     println!("Loading logo from file...");
     let (large, _, colors): (Vec<String>, Vec<String>, ColorConfig) = LogoParser::from(path)?;

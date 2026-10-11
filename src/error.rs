@@ -14,7 +14,7 @@ use std::{
 
 #[derive(Debug)]
 pub enum Error {
-    JsonError(String),
+    Json5Error(String),
     IoError(io::Error),
     ValidationError(String),
     ColorParseError(String),
@@ -24,7 +24,7 @@ pub enum Error {
 impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Error::JsonError(e) => write!(f, "JSON parsing error: {}", e),
+            Error::Json5Error(e) => write!(f, "JSON5 parsing error: {}", e),
             Error::IoError(e) => write!(f, "IO error: {}", e),
             Error::ValidationError(e) => write!(f, "Validation error: {}", e),
             Error::ColorParseError(e) => write!(f, "Color parse error: {}", e),
@@ -43,8 +43,8 @@ impl From<io::Error> for Error {
     }
 }
 
-impl From<serde_json::Error> for Error {
-    fn from(err: serde_json::Error) -> Self {
-        Error::JsonError(err.to_string())
+impl From<json5::Error> for Error {
+    fn from(err: json5::Error) -> Self {
+        Error::Json5Error(err.to_string())
     }
 }

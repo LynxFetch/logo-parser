@@ -34,7 +34,7 @@ impl LogoParser {
 
         let content: String = fs::read_to_string(path)?;
 
-        let config: LogoConfig = serde_json::from_str(&content)?;
+        let config: LogoConfig = json5::from_str(&content)?;
         config.validate().map_err(Error::ValidationError)?;
 
         let large: Vec<String> = config.get_large_logo().unwrap_or_else(|| Vec::new());
