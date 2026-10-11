@@ -6,7 +6,7 @@ To use this <a href="https://crates.io/crates/logo-parser">crate</a>, add it as 
 
 ```toml
 [dependencies]
-logo-parser = "1.0.1"
+logo-parser = "1.0.2"
 ```
 
 ### [Example code](https://gitlab.com/lynxfetch/logo-parser/-/tree/main/examples)
