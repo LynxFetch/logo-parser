@@ -43,10 +43,10 @@ impl LogoConfig {
             return Err("At least one logo is required".to_string());
         }
 
-        let logo_type: String = self.logos[0].logo_type.to_lowercase();
-
-        if (logo_type != "large") && (logo_type != "small") {
-            return Err(format!("Logo type must be 'large' or 'small', found '{}'", self.logos[0].logo_type));
+        for logo in &self.logos {
+            if !logo.logo_type.eq_ignore_ascii_case("large") && !logo.logo_type.eq_ignore_ascii_case("small") {
+                return Err(format!("Logo type must be 'large' or 'small', found '{}'", logo.logo_type));
+            }
         }
 
         if self.colors.len() != 3 {
@@ -69,35 +69,32 @@ impl LogoConfig {
     }
 
     pub(super) fn get_large_logo(&self) -> Option<Vec<String>> {
-        self.logos.iter().find(|l: &&LogoEntry| l.logo_type.to_lowercase() == "large").map(|l: &LogoEntry| l.ascii.clone())
+        self.logos.iter().find(|l: &&LogoEntry| l.logo_type.eq_ignore_ascii_case("large")).map(|l: &LogoEntry| l.ascii.clone())
     }
 
     pub(super) fn get_small_logo(&self) -> Option<Vec<String>> {
-        self.logos.iter().find(|l: &&LogoEntry| l.logo_type.to_lowercase() == "small").map(|l: &LogoEntry| l.ascii.clone())
+        self.logos.iter().find(|l: &&LogoEntry| l.logo_type.eq_ignore_ascii_case("small")).map(|l: &LogoEntry| l.ascii.clone())
     }
 
-    pub(super) fn get_title_color_ref(&self) -> Option<String> {
-        if let ColorValue::Reference(s) = &self.colors[0] {
-            return Some(s.clone());
+    pub(super) fn get_title_color_ref(&self) -> Option<&str> {
+        match self.colors.first()? {
+            ColorValue::Reference(s) => Some(s),
+            ColorValue::Array(_) => None
         }
-
-        None
     }
 
-    pub(super) fn get_keys_color_ref(&self) -> Option<String> {
-        if let ColorValue::Reference(s) = &self.colors[1] {
-            return Some(s.clone());
+    pub(super) fn get_keys_color_ref(&self) -> Option<&str> {
+        match self.colors.get(1)? {
+            ColorValue::Reference(s) => Some(s),
+            ColorValue::Array(_) => None
         }
-
-        None
     }
 
-    pub(super) fn get_color_defs(&self) -> Option<Vec<ColorDef>> {
-        if let ColorValue::Array(arr) = &self.colors[2] {
-            return Some(arr.clone());
+    pub(super) fn get_color_defs(&self) -> Option<&[ColorDef]> {
+        match self.colors.get(2)? {
+            ColorValue::Array(arr) => Some(arr),
+            ColorValue::Reference(_) => None
         }
-
-        None
     }
 }
 
