@@ -37,8 +37,8 @@ impl LogoParser {
         let config: LogoConfig = json5::from_str(&content)?;
         config.validate().map_err(Error::ValidationError)?;
 
-        let large: Vec<String> = config.get_large_logo().unwrap_or_else(|| Vec::new());
-        let small: Vec<String> = config.get_small_logo().unwrap_or_else(|| Vec::new());
+        let large: Vec<String> = config.get_large_logo().unwrap_or_default();
+        let small: Vec<String> = config.get_small_logo().unwrap_or_default();
 
         if large.is_empty() && small.is_empty() {
             return Err(Error::ValidationError("No valid logo found".to_string()));
@@ -80,8 +80,7 @@ impl LogoParser {
     fn resolve_color_reference(reference: &str, color_defs: &[ColorDef]) -> Result<AnyColor, Error> {
         let reference: &str = reference.trim();
 
-        if reference.starts_with('%') {
-            let idx_str: &str = &reference[1..];
+        if let Some(idx_str) = reference.strip_prefix('%') {
             let idx: usize = idx_str.parse().map_err(|_| Error::ColorParseError(format!("Invalid color index: {}", idx_str)))?;
 
             if idx >= color_defs.len() {

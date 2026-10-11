@@ -23,7 +23,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("ASCII colors: {}", colors.ascii_colors.len());
 
     for (i, line) in large.iter().enumerate() {
-        println!("[{}] {}", i, line);
+        println!("[{:02}] {}", i, line);
     }
 
     Ok(())
